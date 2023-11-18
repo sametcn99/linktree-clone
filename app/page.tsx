@@ -13,6 +13,12 @@ export default function Home() {
         Check out the source code from github
       </a>
       <Link
+        href="/sametc0"
+        className="font-mono bg-slate-700 p-1 m-4 hover:bg-slate-800 transition-all duration-1000"
+      >
+        Go to Sample Page
+      </Link>
+      <Link
         href="/admin"
         className="font-mono bg-slate-700 p-1 m-4 hover:bg-slate-800 transition-all duration-1000"
       >
