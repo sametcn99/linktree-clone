@@ -62,7 +62,7 @@ export default function LinksComponent({ ...props }) {
   const onSave = () => {
     console.log("onSave", linksData);
     const date = new Date().toISOString();
-    updateLinks(linksData, props.userID ,date);
+    updateLinks(linksData, props.userID, date);
   };
 
   // Render the LinksComponent

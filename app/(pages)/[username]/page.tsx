@@ -98,7 +98,7 @@ function UserPage({ params }: any) {
   return userData ? (
     <>
       {/* Background */}
-      <div className="absolute z-0 w-full h-full bg-zinc-950" />
+      <div className="absolute z-0 w-full h-full bg-zinc-250 dark:bg-zinc-950" />
 
       {/* User information section */}
       <section className="flex z-10 flex-col justify-center items-center p-6 text-center bg-gray-600 bg-opacity-30 rounded-2xl select-none h-fit w-[20rem]">
