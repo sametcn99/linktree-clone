@@ -118,7 +118,11 @@ function UserPage({ params }: any) {
         <h1 className="text-2xl font-bold">{userData?.full_name}</h1>
 
         {/* Display user's website if available */}
-        <a href={userData?.website} className="text-sm font-light">
+        <a
+          href={userData?.website}
+          className="text-sm font-light hover:underline"
+          target="_blank"
+        >
           Website
         </a>
 

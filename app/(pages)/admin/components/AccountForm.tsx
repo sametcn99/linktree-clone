@@ -1,15 +1,16 @@
 "use client"; // Assuming this is a special comment, it's kept as is
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { updateUserData } from "../lib/updateUserData";
 import Avatar from "./avatar";
 
 // AccountForm component
 export default function AccountForm({ user }: { user: any }) {
   // State variables for user details
-  const [fullname, setFullname] = useState(user.full_name);
+  const [fullname, setFullname] = useState(user.full_name); // Assuming this should be 'user.full_name' instead of 'data.full_name' [1]
+  const [website, setWebsite] = useState(user.website); // Assuming this should be 'user.full_name' instead of 'data.full_name' [1]
   const [username, setUsername] = useState(user.username);
-  const [bio, setBio] = useState(user.username); // Assuming this should be 'user.bio'
+  const [bio, setBio] = useState(user.bio); // Assuming this should be 'user.bio'
   const [avatar_url, setAvatarUrl] = useState(user.avatar_url);
 
   // Event handler for full name change
@@ -17,8 +18,22 @@ export default function AccountForm({ user }: { user: any }) {
     setFullname(event.target.value);
   };
 
+  // Event handler for website change
+  const handleWebsiteChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    let newWebsite = event.target.value;
+
+    // Check if the input value starts with "https://"
+    if (!newWebsite.startsWith("https://")) {
+      // If not, prepend "https://"
+      newWebsite = "https://" + newWebsite;
+    }
+
+    // Update the state with the modified website value
+    setWebsite(newWebsite);
+  };
+
   // Event handler for bio change
-  const handleBioChange = (event: any) => {
+  const handleBioChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setBio(event.target.value);
   };
 
@@ -32,12 +47,19 @@ export default function AccountForm({ user }: { user: any }) {
     event.preventDefault();
 
     // Call the updateUserData function with updated user details
-    await updateUserData({
-      fullname,
-      username,
-      userID: user.id,
-      bio,
-    });
+    try {
+      await updateUserData({
+        fullname,
+        username,
+        userID: user.id,
+        bio,
+        avatar_url,
+        website,
+        updated_at: new Date().toISOString(),
+      });
+    } finally {
+      window.location.reload();
+    }
   };
 
   // Render the AccountForm component
@@ -56,7 +78,6 @@ export default function AccountForm({ user }: { user: any }) {
             setAvatarUrl(url);
           }}
         />
-
         {/* Input field for full name */}
         <div>
           <label className="block mb-2 text-sm font-semibold">Name</label>
@@ -64,11 +85,10 @@ export default function AccountForm({ user }: { user: any }) {
             type="text"
             id="name"
             className="py-2 px-4 w-full text-white bg-gray-700 rounded-md border"
-            value={fullname}
+            defaultValue={fullname}
             onChange={handleFullnameChange}
           />
         </div>
-
         {/* Input field for username */}
         <div>
           <label className="block mb-2 text-sm font-semibold">User Name</label>
@@ -76,22 +96,32 @@ export default function AccountForm({ user }: { user: any }) {
             type="text"
             id="username"
             className="py-2 px-4 w-full text-white bg-gray-700 rounded-md border"
-            value={username}
+            defaultValue={username}
             onChange={handleUsernameChange}
           />
         </div>
-
+        {/* Input field for website */}
+        <div>
+          <label className="block mb-2 text-sm font-semibold">Website</label>
+          <input
+            type="text"
+            id="website"
+            className="py-2 px-4 w-full text-white bg-gray-700 rounded-md border"
+            defaultValue={website}
+            onChange={handleWebsiteChange}
+          />
+        </div>
         {/* Textarea for bio */}
         <div>
           <label className="block mb-2 text-sm font-semibold">Bio</label>
           <textarea
             id="bio"
             className="py-2 px-4 w-full text-white bg-gray-700 rounded-md border"
-            value={bio}
+            defaultValue={bio}
             onChange={handleBioChange}
+            rows={7}
           />
         </div>
-
         {/* Submit button */}
         <div>
           <button

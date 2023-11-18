@@ -61,7 +61,8 @@ export default function LinksComponent({ ...props }) {
   // Event handler for saving the updated links data
   const onSave = () => {
     console.log("onSave", linksData);
-    updateLinks(linksData, props.userID);
+    const date = new Date().toISOString();
+    updateLinks(linksData, props.userID ,date);
   };
 
   // Render the LinksComponent

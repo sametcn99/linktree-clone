@@ -7,20 +7,21 @@ export async function updateUserData({
   userID,
   bio,
   avatar_url,
+  website,
+  updated_at,
 }: any) {
   // Create a Supabase client
   const supabase = createClientComponentClient();
-  console.log("Full name:", avatar_url);
-
   try {
     // Make API request to upsert (insert or update) user data in the "profiles" table
     const { error } = await supabase.from("profiles").upsert({
       id: userID, // Specify the user ID
+      updated_at: updated_at, // Update the timestamp for last modification
       username: username, // Set the username in the profile
       full_name: fullname, // Set the full name in the profile
-      updated_at: new Date().toISOString(), // Update the timestamp for last modification
       avatar_url: avatar_url, // Set the avatar URL in the profile
       bio: bio, // Set the bio in the profile
+      website,
     });
 
     // If there is an error during the upsert operation
