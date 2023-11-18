@@ -2,7 +2,10 @@ export default function LinkInput({ ...props }) {
   const { handleUrlChange, onRemove, handleLabelChange } = props;
 
   return (
-    <div className="p-2 mb-4 rounded-xl bg-slate-500" key={props.key}>
+    <div
+      className="p-2 mb-4 rounded-xl bg-slate-500 bg-opacity-50"
+      key={props.key}
+    >
       <input
         className="block mb-2 text-sm font-bold bg-transparent"
         defaultValue={props.linksData.label}

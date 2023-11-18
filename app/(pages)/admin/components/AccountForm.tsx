@@ -67,7 +67,7 @@ export default function AccountForm({ user }: { user: any }) {
     <>
       <form
         onSubmit={handleSubmit}
-        className="p-6 mx-auto space-y-4 max-w-md bg-gray-800 rounded-md"
+        className="p-6 mx-auto space-y-4  bg-gray-800 rounded-md min-w-[30rem]"
       >
         {/* Avatar component for user profile image */}
         <Avatar

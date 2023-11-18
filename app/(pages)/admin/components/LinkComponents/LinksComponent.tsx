@@ -11,8 +11,12 @@ export default function LinksComponent({ ...props }) {
 
   // Event handler for URL change
   const handleUrlChange = (event: any, labelText: any) => {
-    const { value } = event.target;
-
+    let { value } = event.target;
+    console.log("handleUrlChange", typeof value);
+    if (!value.startsWith("https://")) {
+      // If not, prepend "https://"
+      value = "https://" + value;
+    }
     // Update the linksData state with the new URL value
     setLinksData((prevData: any) => ({
       ...prevData,
@@ -59,39 +63,37 @@ export default function LinksComponent({ ...props }) {
   };
 
   // Event handler for saving the updated links data
-  const onSave = () => {
+  const onSave = async () => {
     console.log("onSave", linksData);
     const date = new Date().toISOString();
-    updateLinks(linksData, props.userID, date);
+    await updateLinks(linksData, props.userID, date);
+    window.location.reload();
   };
 
   // Render the LinksComponent
   return (
     <>
-      <section className="w-full min-h-screen">
-        <section className="p-6 mx-auto space-y-4 max-w-md bg-gray-800 rounded-md">
-          <h1>Links</h1>
-          {/* Map over linksData and render LinkInput components */}
-          {Object.keys(linksData).map((key) => (
-            <LinkInput
-              key={key}
-              linksData={linksData[key]}
-              handleUrlChange={(event: any) => handleUrlChange(event, key)}
-              handleLabelChange={(event: any) => handleLabelChange(event, key)}
-              onRemove={() => onRemove(key)}
-            />
-          ))}
+      <section className="p-6 mx-auto space-y-4  bg-gray-800 rounded-md h-fit  min-w-[30rem]">
+        {/* Map over linksData and render LinkInput components */}
+        {Object.keys(linksData).map((key) => (
+          <LinkInput
+            key={key}
+            linksData={linksData[key]}
+            handleUrlChange={(event: any) => handleUrlChange(event, key)}
+            handleLabelChange={(event: any) => handleLabelChange(event, key)}
+            onRemove={() => onRemove(key)}
+          />
+        ))}
 
-          {/* Button to add a new link */}
-          <button onClick={onAdd} className="p-2 m-1 bg-slate-600">
-            Add Link
-          </button>
+        {/* Button to add a new link */}
+        <button onClick={onAdd} className="p-2 m-1 bg-slate-600">
+          Add Link
+        </button>
 
-          {/* Button to save the changes */}
-          <button onClick={onSave} className="p-2 m-1 bg-slate-600">
-            Save
-          </button>
-        </section>
+        {/* Button to save the changes */}
+        <button onClick={onSave} className="p-2 m-1 bg-slate-600">
+          Save
+        </button>
       </section>
     </>
   );
