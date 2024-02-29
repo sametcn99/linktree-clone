@@ -28,6 +28,11 @@ export default function RootLayout({
         <main className="flex flex-col justify-center items-center w-full min-h-screen">
           <Providers>{children}</Providers>
         </main>
+        <footer className="text-white text-center hover:underline">
+          <a href="https://sametcc.me/linktree-clone" target="_blank">
+            check out the source code
+          </a>
+        </footer>
         <Analytics />
       </body>
     </html>
